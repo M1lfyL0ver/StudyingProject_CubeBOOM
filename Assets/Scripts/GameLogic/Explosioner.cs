@@ -6,9 +6,8 @@ public class Explosioner : MonoBehaviour
     [SerializeField] private float _force = 5f;
     [SerializeField] private float _upwardModifier = 1f;
 
-    public void CreateExplosion(Cube cube)
+    public void CreateExplosion(Rigidbody cube)
     {
-        cube.TryGetComponent<Rigidbody>(out Rigidbody cubeToExplose);
-        cubeToExplose.AddExplosionForce(_force, cubeToExplose.transform.position, _radius, _upwardModifier, ForceMode.Impulse);
+        cube.AddExplosionForce(_force, cube.transform.position, _radius, _upwardModifier, ForceMode.Impulse);
     }
 }

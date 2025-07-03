@@ -12,7 +12,7 @@ public class Multiplier : MonoBehaviour
         _cubeSpawner.OnCubesMultiplied += ExploseCube;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         _clicker.OnCubeHit -= MultiplyCube;
         _cubeSpawner.OnCubesMultiplied -= ExploseCube;
@@ -27,7 +27,7 @@ public class Multiplier : MonoBehaviour
     {
         foreach (Cube cube in cubes)
         {
-            _explosioner.CreateExplosion(cube);
+            _explosioner.CreateExplosion(cube.Rigidbody);
         }
     }
 }

@@ -14,7 +14,7 @@ public class Clicker : MonoBehaviour
         _clickAction.action.Enable();
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         _clickAction.action.performed -= OnClick;
         _clickAction.action.Disable();

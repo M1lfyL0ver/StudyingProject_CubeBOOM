@@ -19,14 +19,14 @@ public class CubeSpawner : MonoBehaviour
 
     private void Multiply(Cube originalCube)
     {
-        int CubeAmount = Random.Range(_minCubes, _maxCubes + 1);
-        Cube[] newCubes = new Cube[CubeAmount];
+        int cubeAmount = Random.Range(_minCubes, _maxCubes + 1);
+        Cube[] newCubes = new Cube[cubeAmount];
         Vector3 originalPosition = originalCube.transform.position;
         Vector3 originalScale = originalCube.transform.localScale;
 
         if (originalCube.GetMultiplierChance() >= Random.value)
         {
-            for (int i = 0; i < CubeAmount; i++)
+            for (int i = 0; i < cubeAmount; i++)
             {
                 newCubes[i] = Instantiate(originalCube, originalPosition, Quaternion.identity);
                 newCubes[i].transform.localScale = originalScale / 2;
