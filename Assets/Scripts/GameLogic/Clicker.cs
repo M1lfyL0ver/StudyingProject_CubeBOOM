@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ClickManager : MonoBehaviour
+public class Clicker : MonoBehaviour
 {
     [SerializeField] private InputActionReference _clickAction;
+
+    public event Action<Cube> OnCubeHit;
 
     private void Awake()
     {
@@ -21,9 +24,9 @@ public class ClickManager : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
 
-        if (Physics.Raycast(ray, out RaycastHit hit) && (hit.collider.TryGetComponent<Multiplier>(out var multiplier)))
+        if (Physics.Raycast(ray, out RaycastHit hit) && (hit.collider.TryGetComponent<Cube>(out Cube hitCube)))
         {
-            multiplier.HandleMultiply();
+            OnCubeHit.Invoke(hitCube);
         }
     }
 }

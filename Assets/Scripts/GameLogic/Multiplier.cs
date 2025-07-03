@@ -1,57 +1,33 @@
 using UnityEngine;
-using Random = UnityEngine.Random;
-
-[RequireComponent(typeof(Rigidbody), typeof(Renderer))]
 
 public class Multiplier : MonoBehaviour
 {
-    [SerializeField] private float _explosionForce = 10f;
-    [SerializeField] private float _explosionRadius = 5f;
-
-    private float _multiplyChance = 1f;
-    private GameObject _prefabToMultiply;
-    private Renderer _renderer;
-    private Rigidbody _rigidbody;
-
-    public void HandleMultiply()
-    {
-        bool shouldSplit = Random.value <= _multiplyChance;
-
-        if (shouldSplit && _multiplyChance > 0.01f) 
-        {
-            Multiply();
-        }
-
-        Destroy(gameObject);
-    }
+    [SerializeField] private Clicker _clicker;
+    [SerializeField] private CubeSpawner _cubeSpawner;
+    [SerializeField] private Explosioner _explosioner;
 
     private void Awake()
     {
-        _prefabToMultiply = gameObject;
-        _renderer = GetComponent<Renderer>();
-        _rigidbody = GetComponent<Rigidbody>();
-        _renderer.material.color = Random.ColorHSV();
+        _clicker.OnCubeHit += MultiplyCube;
+        _cubeSpawner.OnCubesMultiplied += ExploseCube;
     }
 
-    private void Multiply()
+    private void OnDisable()
     {
-        int cubesToSpawn = Random.Range(2, 7); 
-        Vector3 originalScale = transform.localScale;
-        Vector3 originalPosition = transform.position;
+        _clicker.OnCubeHit -= MultiplyCube;
+        _cubeSpawner.OnCubesMultiplied -= ExploseCube;
+    }
 
-        for (int i = 0; i < cubesToSpawn; i++)
+    private void MultiplyCube(Cube cube)
+    {
+        _cubeSpawner.HandleMultiply(cube);
+    }
+
+    private void ExploseCube(Cube[] cubes)
+    {
+        foreach (Cube cube in cubes)
         {
-            GameObject newObject = Instantiate(_prefabToMultiply, originalPosition, Quaternion.identity); 
-            newObject.transform.localScale = originalScale / 2f;
-
-            Rigidbody newRigibody = newObject.GetComponent<Rigidbody>();
-            Multiplier multiplyScript = newObject.GetComponent<Multiplier>();
-
-            newRigibody.AddExplosionForce(_explosionForce, originalPosition, _explosionRadius);
-
-            multiplyScript._multiplyChance = _multiplyChance / 2f;
-            multiplyScript._explosionForce = _explosionForce;
-            multiplyScript._explosionRadius = _explosionRadius;
+            _explosioner.CreateExplosion(cube);
         }
     }
 }
