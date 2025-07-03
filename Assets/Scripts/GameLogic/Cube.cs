@@ -7,6 +7,7 @@ public class Cube : MonoBehaviour
     private Collider _collider;
     private Rigidbody _rigidbody;
     private float _multiplierChance = 1f;
+    private float _decreaseNumber = 2f;
 
     private void Awake()
     {
@@ -16,7 +17,7 @@ public class Cube : MonoBehaviour
 
     public void DecreaseMultiplierChance()
     {
-        _multiplierChance /= 2;
+        _multiplierChance /= _decreaseNumber;
     }
 
     public float GetMultiplierChance()

@@ -8,13 +8,13 @@ public class Multiplier : MonoBehaviour
 
     private void Awake()
     {
-        _clicker.OnCubeHit += MultiplyCube;
+        _clicker.CubeHitDetected += MultiplyCube;
         _cubeSpawner.OnCubesMultiplied += ExploseCube;
     }
 
     private void OnDestroy()
     {
-        _clicker.OnCubeHit -= MultiplyCube;
+        _clicker.CubeHitDetected -= MultiplyCube;
         _cubeSpawner.OnCubesMultiplied -= ExploseCube;
     }
 

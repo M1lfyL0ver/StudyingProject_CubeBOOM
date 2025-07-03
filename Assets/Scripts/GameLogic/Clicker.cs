@@ -6,7 +6,7 @@ public class Clicker : MonoBehaviour
 {
     [SerializeField] private InputActionReference _clickAction;
 
-    public event Action<Cube> OnCubeHit;
+    public event Action<Cube> CubeHitDetected;
 
     private void Awake()
     {
@@ -26,7 +26,7 @@ public class Clicker : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit) && (hit.collider.TryGetComponent<Cube>(out Cube hitCube)))
         {
-            OnCubeHit.Invoke(hitCube);
+            CubeHitDetected.Invoke(hitCube);
         }
     }
 }

@@ -9,6 +9,8 @@ public class CubeSpawner : MonoBehaviour
 
     public event Action<Cube[]> OnCubesMultiplied;
 
+    private float _decreaseNumber = 2f;
+
     public void HandleMultiply(Cube cube)
     {
         if (cube != null)
@@ -29,7 +31,7 @@ public class CubeSpawner : MonoBehaviour
             for (int i = 0; i < cubeAmount; i++)
             {
                 newCubes[i] = Instantiate(originalCube, originalPosition, Quaternion.identity);
-                newCubes[i].transform.localScale = originalScale / 2;
+                newCubes[i].transform.localScale = originalScale / _decreaseNumber;
                 newCubes[i].DecreaseMultiplierChance();
             }
 
