@@ -1,4 +1,5 @@
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Multiplier : MonoBehaviour
 {
@@ -9,25 +10,32 @@ public class Multiplier : MonoBehaviour
     private void Awake()
     {
         _clicker.CubeHitDetected += MultiplyCube;
-        _cubeSpawner.OnCubesMultiplied += ExploseCube;
+        _cubeSpawner.CubesMultiplySuccessed += ExploseMultiplyCube;
+        _cubeSpawner.CubesMultiplyFailed += ExploseDeleteCube;
     }
 
     private void OnDestroy()
     {
         _clicker.CubeHitDetected -= MultiplyCube;
-        _cubeSpawner.OnCubesMultiplied -= ExploseCube;
+        _cubeSpawner.CubesMultiplySuccessed -= ExploseMultiplyCube;
+        _cubeSpawner.CubesMultiplyFailed -= ExploseDeleteCube;
     }
 
     private void MultiplyCube(Cube cube)
-    {
+    { 
         _cubeSpawner.HandleMultiply(cube);
     }
 
-    private void ExploseCube(Cube[] cubes)
+    private void ExploseMultiplyCube(Cube[] cubes)
     {
         foreach (Cube cube in cubes)
         {
-            _explosioner.CreateExplosion(cube.Rigidbody);
+            _explosioner.CreateMultiplyExplosion(cube.Rigidbody);
         }
+    }
+
+    private void ExploseDeleteCube(Cube cube)
+    {
+        _explosioner.CreateDeleteExplosion(cube);
     }
 }

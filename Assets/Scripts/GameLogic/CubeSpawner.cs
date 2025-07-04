@@ -7,7 +7,8 @@ public class CubeSpawner : MonoBehaviour
     [SerializeField] private int _minCubes = 2;
     [SerializeField] private int _maxCubes = 6;
 
-    public event Action<Cube[]> OnCubesMultiplied;
+    public event Action<Cube[]> CubesMultiplySuccessed;
+    public event Action<Cube> CubesMultiplyFailed;
 
     private float _decreaseNumber = 2f;
 
@@ -25,8 +26,8 @@ public class CubeSpawner : MonoBehaviour
         Cube[] newCubes = new Cube[cubeAmount];
         Vector3 originalPosition = originalCube.transform.position;
         Vector3 originalScale = originalCube.transform.localScale;
-
-        if (originalCube.GetMultiplierChance() >= Random.value)
+        
+        if(originalCube.GetMultiplierChance() >= Random.value)
         {
             for (int i = 0; i < cubeAmount; i++)
             {
@@ -35,7 +36,11 @@ public class CubeSpawner : MonoBehaviour
                 newCubes[i].DecreaseMultiplierChance();
             }
 
-            OnCubesMultiplied?.Invoke(newCubes);
+            CubesMultiplySuccessed?.Invoke(newCubes);
+        }
+        else
+        {
+            CubesMultiplyFailed?.Invoke(originalCube);
         }
 
         Destroy(originalCube.gameObject);
