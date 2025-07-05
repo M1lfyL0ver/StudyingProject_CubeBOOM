@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -7,42 +6,46 @@ public class CubeSpawner : MonoBehaviour
     [SerializeField] private int _minCubes = 2;
     [SerializeField] private int _maxCubes = 6;
 
-    public event Action<Cube[]> CubesMultiplySuccessed;
-    public event Action<Cube> CubesMultiplyFailed;
-
     private float _decreaseNumber = 2f;
 
-    public void HandleMultiply(Cube cube)
+    public Cube[] HandleMultiply(Cube cube, bool isMultiply)
     {
-        if (cube != null)
+        if (cube != null && isMultiply == true)
         {
-            Multiply(cube);
+            return Multiply(cube);
+        }
+        else
+        {
+            Cube[] cubes = new Cube[1];
+            cubes[0] = cube;
+
+            DestroyCube(cube);
+
+            return cubes;
         }
     }
 
-    private void Multiply(Cube originalCube)
+    private Cube[] Multiply(Cube originalCube)
     {
         int cubeAmount = Random.Range(_minCubes, _maxCubes + 1);
         Cube[] newCubes = new Cube[cubeAmount];
         Vector3 originalPosition = originalCube.transform.position;
         Vector3 originalScale = originalCube.transform.localScale;
-        
-        if(originalCube.GetMultiplierChance() >= Random.value)
-        {
-            for (int i = 0; i < cubeAmount; i++)
-            {
-                newCubes[i] = Instantiate(originalCube, originalPosition, Quaternion.identity);
-                newCubes[i].transform.localScale = originalScale / _decreaseNumber;
-                newCubes[i].DecreaseMultiplierChance();
-            }
 
-            CubesMultiplySuccessed?.Invoke(newCubes);
-        }
-        else
+        for (int i = 0; i < cubeAmount; i++)
         {
-            CubesMultiplyFailed?.Invoke(originalCube);
+            newCubes[i] = Instantiate(originalCube, originalPosition, Quaternion.identity);
+            newCubes[i].transform.localScale = originalScale / _decreaseNumber;
+            newCubes[i].DecreaseMultiplierChance();
         }
 
-        Destroy(originalCube.gameObject);
+        DestroyCube(originalCube);
+
+        return newCubes;
+    }
+
+    private void DestroyCube(Cube cube)
+    {
+        Destroy(cube.gameObject);
     }
 }

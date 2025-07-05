@@ -10,32 +10,38 @@ public class Multiplier : MonoBehaviour
     private void Awake()
     {
         _clicker.CubeHitDetected += MultiplyCube;
-        _cubeSpawner.CubesMultiplySuccessed += ExploseMultiplyCube;
-        _cubeSpawner.CubesMultiplyFailed += ExploseDeleteCube;
     }
 
     private void OnDestroy()
     {
         _clicker.CubeHitDetected -= MultiplyCube;
-        _cubeSpawner.CubesMultiplySuccessed -= ExploseMultiplyCube;
-        _cubeSpawner.CubesMultiplyFailed -= ExploseDeleteCube;
     }
 
     private void MultiplyCube(Cube cube)
-    { 
-        _cubeSpawner.HandleMultiply(cube);
-    }
-
-    private void ExploseMultiplyCube(Cube[] cubes)
     {
-        foreach (Cube cube in cubes)
+        bool isMultiplySuccessed;
+
+        if (cube.GetMultiplierChance() >= Random.value)
         {
-            _explosioner.CreateMultiplyExplosion(cube.Rigidbody);
+            isMultiplySuccessed = true;
+            ExploseCube(_cubeSpawner.HandleMultiply(cube, isMultiplySuccessed));
+        }
+        else
+        {
+            isMultiplySuccessed = false;
+            ExploseCube(_cubeSpawner.HandleMultiply(cube, isMultiplySuccessed));
         }
     }
 
-    private void ExploseDeleteCube(Cube cube)
+    private void ExploseCube(Cube[] cubes)
     {
-        _explosioner.CreateDeleteExplosion(cube);
+        if(cubes.Length == 1)
+        {
+            _explosioner.CreateExplosion(cubes[0]);
+        }
+        else
+        {
+            _explosioner.CreateExplosion(cubes);
+        }
     }
 }

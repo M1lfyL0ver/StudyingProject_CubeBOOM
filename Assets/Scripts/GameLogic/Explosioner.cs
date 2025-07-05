@@ -2,19 +2,24 @@ using UnityEngine;
 
 public class Explosioner : MonoBehaviour
 {
-    [SerializeField] private float _radius = 5f;
-    [SerializeField] private float _force = 5f;
-    [SerializeField] private float _upwardModifier = 1f;
+    [SerializeField] private float _radiusMultiplyExplosion = 5f;
+    [SerializeField] private float _forceMultiplyExplosion = 5f;
+    [SerializeField] private float _upwardModifierMultiplyExplosion = 1f;
+    [SerializeField] private float _radiusDeleteExplosion = 25f;
+    [SerializeField] private float _forceDeleteExplosion = 50f;
 
-    public void CreateMultiplyExplosion(Rigidbody cube)
+    public void CreateExplosion(Cube[] cubes)
     {
-        cube.AddExplosionForce(_force, cube.transform.position, _radius, _upwardModifier, ForceMode.Impulse);
+        foreach (Cube cube in cubes)
+        {
+            cube.Rigidbody.AddExplosionForce(_forceMultiplyExplosion, cube.transform.position, _radiusMultiplyExplosion, _upwardModifierMultiplyExplosion, ForceMode.Impulse);
+        }
     }
 
-    public void CreateDeleteExplosion(Cube cube)
+    public void CreateExplosion(Cube cube)
     {
-        float explosionForce = 50f * cube.transform.localScale.x;
-        float explosionRadius = 25f * cube.transform.localScale.x;
+        float explosionRadius = _radiusDeleteExplosion * cube.transform.localScale.x;
+        float explosionForce = _forceDeleteExplosion * cube.transform.localScale.x;
 
         Collider[] colliders = Physics.OverlapSphere(cube.transform.position, explosionRadius);
 
@@ -31,7 +36,7 @@ public class Explosioner : MonoBehaviour
                     explosionForce * forceMultiplier,
                     transform.position,
                     explosionRadius,
-                    _upwardModifier,
+                    _upwardModifierMultiplyExplosion,
                     ForceMode.Impulse
                 );
             }

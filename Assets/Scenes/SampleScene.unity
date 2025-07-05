@@ -604,9 +604,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f84b5087f020fb49935647479e799a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _radius: 1
-  _force: 5
-  _upwardModifier: 1
+  _radiusMultiplyExplosion: 5
+  _forceMultiplyExplosion: 5
+  _upwardModifierMultiplyExplosion: 1
+  _radiusDeleteExplosion: 50
+  _forceDeleteExplosion: 25
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
