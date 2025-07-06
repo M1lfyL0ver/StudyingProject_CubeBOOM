@@ -18,13 +18,9 @@ public class CubeSpawner : MonoBehaviour
         return null;
     }
 
-    public Cube HandleFailedMultiply(Cube cube)
+    public void DestroyCube(Cube cube)
     {
-        Cube cubeToReturn = cube;
-
-        DestroyCube(cube);
-
-        return cubeToReturn;
+        Destroy(cube.gameObject);
     }
 
     private Cube[] Multiply(Cube originalCube)
@@ -44,10 +40,5 @@ public class CubeSpawner : MonoBehaviour
         DestroyCube(originalCube);
 
         return newCubes;
-    }
-
-    private void DestroyCube(Cube cube)
-    {
-        Destroy(cube.gameObject);
     }
 }

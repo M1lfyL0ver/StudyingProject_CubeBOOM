@@ -22,10 +22,11 @@ public class Multiplier : MonoBehaviour
         if (cube.MultiplierChance >= Random.value)
         {
             ExploseCube(_cubeSpawner.HandleSuccessedMultiply(cube));
+            _cubeSpawner.DestroyCube(cube);
         }
         else
         {
-            ExploseCube(_cubeSpawner.HandleFailedMultiply(cube));
+            _cubeSpawner.DestroyCube(cube);
         }
     }
 

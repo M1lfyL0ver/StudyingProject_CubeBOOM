@@ -1,23 +1,22 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
+
 public class Cube : MonoBehaviour
 {
-    private Rigidbody _rigidbody;
-    private float _multiplierChance = 1f;
     private float _decreaseNumber = 2f;
 
-    public Rigidbody Rigidbody => _rigidbody;
+    public Rigidbody Rigidbody { get; private set; }
 
-    public float MultiplierChance => _multiplierChance;
+    public float MultiplierChance { get; private set; } = 1f;
 
     private void Awake()
     {
-        TryGetComponent(out _rigidbody);
+        Rigidbody = GetComponent<Rigidbody>();
     }
 
     public void DecreaseMultiplierChance()
     {
-        _multiplierChance /= _decreaseNumber;
+        MultiplierChance /= _decreaseNumber;
     }
 }
