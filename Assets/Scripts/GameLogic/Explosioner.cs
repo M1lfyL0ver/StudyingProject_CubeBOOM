@@ -29,7 +29,7 @@ public class Explosioner : MonoBehaviour
 
             if (rigidbody != null)
             {
-                float distance = Vector3.Distance(transform.position, hit.transform.position);
+                float distance = transform.position.SqrDistance(hit.transform.position);
                 float forceMultiplier = 1 - Mathf.Clamp01(distance / explosionRadius);
 
                 rigidbody.AddExplosionForce(

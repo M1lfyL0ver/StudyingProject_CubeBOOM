@@ -8,21 +8,23 @@ public class CubeSpawner : MonoBehaviour
 
     private float _decreaseNumber = 2f;
 
-    public Cube[] HandleMultiply(Cube cube, bool isMultiply)
+    public Cube[] HandleSuccessedMultiply(Cube cube)
     {
-        if (cube != null && isMultiply == true)
+        if (cube != null)
         {
             return Multiply(cube);
         }
-        else
-        {
-            Cube[] cubes = new Cube[1];
-            cubes[0] = cube;
 
-            DestroyCube(cube);
+        return null;
+    }
 
-            return cubes;
-        }
+    public Cube HandleFailedMultiply(Cube cube)
+    {
+        Cube cubeToReturn = cube;
+
+        DestroyCube(cube);
+
+        return cubeToReturn;
     }
 
     private Cube[] Multiply(Cube originalCube)

@@ -19,29 +19,23 @@ public class Multiplier : MonoBehaviour
 
     private void MultiplyCube(Cube cube)
     {
-        bool isMultiplySuccessed;
-
-        if (cube.GetMultiplierChance() >= Random.value)
+        if (cube.MultiplierChance >= Random.value)
         {
-            isMultiplySuccessed = true;
-            ExploseCube(_cubeSpawner.HandleMultiply(cube, isMultiplySuccessed));
+            ExploseCube(_cubeSpawner.HandleSuccessedMultiply(cube));
         }
         else
         {
-            isMultiplySuccessed = false;
-            ExploseCube(_cubeSpawner.HandleMultiply(cube, isMultiplySuccessed));
+            ExploseCube(_cubeSpawner.HandleFailedMultiply(cube));
         }
     }
 
     private void ExploseCube(Cube[] cubes)
     {
-        if(cubes.Length == 1)
-        {
-            _explosioner.CreateExplosion(cubes[0]);
-        }
-        else
-        {
-            _explosioner.CreateExplosion(cubes);
-        }
+        _explosioner.CreateExplosion(cubes);
+    }
+
+    private void ExploseCube(Cube cube)
+    {
+        _explosioner.CreateExplosion(cube);
     }
 }
